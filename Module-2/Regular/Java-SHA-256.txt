@@ -1,0 +1,32 @@
+package tp;
+import java.io.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+import java.util.*;
+import java.security.*;
+
+
+public class Solution1 {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = md.digest(input.getBytes("UTF-8"));
+            StringBuilder hexString = new StringBuilder();
+
+            for (byte b : hashBytes) {
+                String hex = String.format("%02x", b);
+                hexString.append(hex);
+            }
+
+            System.out.println(hexString.toString());
+
+        } catch (Exception e) {
+            System.out.println("Error computing hash: " + e.getMessage());
+        }
+    }
+}

@@ -1,0 +1,55 @@
+Employee.java
+
+public class Employee {
+    public String name;
+    private double salary;
+    protected int id;
+
+    public Employee() {
+        this.name = "Default";
+        this.salary = 50000.0;
+        this.id = 101;
+    }
+}
+
+
+
+ReflectionAttributesExample.java
+
+import java.lang.reflect.Field;
+public class ReflectionAttributesExample {
+    public static void main(String[] args) {
+        try {
+            Employee emp = new Employee();
+            Class<?> empClass = emp.getClass();
+            System.out.println("Class Name: " + empClass.getName());
+            Field[] fields = empClass.getDeclaredFields();
+            System.out.println("\nDeclared Fields:");
+
+            for (Field field : fields) {
+                field.setAccessible(true);
+                System.out.println("Field: " + field.getName() + " | Type: " + field.getType().getSimpleName());
+                System.out.println("Original Value: " + field.get(emp));
+
+                switch (field.getType().getSimpleName()) {
+                    case "String":
+                        field.set(emp, "John Smith");
+                        break;
+                    case "double":
+                        field.set(emp, 75000.0);
+                        break;
+                    case "int":
+                        field.set(emp, 202);
+                        break;
+                }
+
+                System.out.println("Updated Value: " + field.get(emp));
+                System.out.println();
+            }
+        } 
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+        }
+    }
+}
